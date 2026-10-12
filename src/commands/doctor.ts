@@ -724,6 +724,14 @@ const checkProviderHealth = async (provider: BuiltinService, providerConfig: Raw
     // above, so it never reaches here — the COPILOT_GITHUB_TOKEN test in tests/specs/doctor.ts
     // pins that ordering, since reaching this gate would report it as having no models.
     // Any future member lands on this model gate by default.
+    if (provider === 'OPENAI_CODEX' && hasApiKey(providerConfig) && getConfiguredModels(providerConfig).length === 0) {
+        return {
+            provider,
+            status: 'healthy',
+            message: 'API key configured',
+        };
+    }
+
     if (SUBSCRIPTION_CLI_SERVICES.includes(provider)) {
         const models = getConfiguredModels(providerConfig);
 

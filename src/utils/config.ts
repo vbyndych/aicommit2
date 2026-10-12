@@ -31,6 +31,7 @@ export type CommitType = (typeof commitTypes)[number];
 export type ModelNameDisplay = 'none' | 'short' | 'full';
 
 export const DEFAULT_OLLAMA_HOST = 'http://localhost:11434';
+export const DEFAULT_OPENAI_CODEX_MODEL = 'gpt-5-codex';
 
 const { hasOwnProperty } = Object.prototype;
 
@@ -38,6 +39,7 @@ export const hasOwn = (object: unknown, key: PropertyKey) => hasOwnProperty.call
 
 export const BUILTIN_SERVICES = [
     'OPENAI',
+    'OPENAI_CODEX',
     'COPILOT_SDK',
     'CLAUDE_CODE',
     'GEMINI_CLI',
@@ -66,7 +68,7 @@ export type BuiltinService = (typeof BUILTIN_SERVICES)[number];
 // #268). It is deliberately NOT the runtime gate's grouping in get-available-ais.ts — that
 // one groups OLLAMA with CLAUDE_CODE/GEMINI_CLI and gives COPILOT_SDK its own wider
 // predicate, so swapping this set in there would reintroduce #268 from the other side.
-export const SUBSCRIPTION_CLI_SERVICES: readonly BuiltinService[] = ['COPILOT_SDK', 'CLAUDE_CODE', 'GEMINI_CLI'];
+export const SUBSCRIPTION_CLI_SERVICES: readonly BuiltinService[] = ['OPENAI_CODEX', 'COPILOT_SDK', 'CLAUDE_CODE', 'GEMINI_CLI'];
 
 const getXdgBaseDirectory = (type: 'config' | 'data' | 'cache' | 'state'): string => {
     const platform = os.platform();
@@ -961,6 +963,7 @@ const modelConfigParsers: Record<ModelName, Record<string, (value: any) => any>>
         maxDiffLines: generalConfigParsers.maxDiffLines,
         diffContext: generalConfigParsers.diffContext,
     },
+    OPENAI_CODEX: subscriptionCliConfigParsers,
     COPILOT_SDK: subscriptionCliConfigParsers,
     CLAUDE_CODE: subscriptionCliConfigParsers,
     GEMINI_CLI: subscriptionCliConfigParsers,

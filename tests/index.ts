@@ -5,6 +5,7 @@ describe('aicommit2', ({ runTestSuite }) => {
     runTestSuite(import('./specs/openai/index.js'));
     runTestSuite(import('./specs/github-models/index.js'));
     runTestSuite(import('./specs/copilot-sdk/index.js'));
+    runTestSuite(import('./specs/openai-codex/index.js'));
     runTestSuite(import('./specs/claude-code/index.js'));
     runTestSuite(import('./specs/gemini-cli/index.js'));
     runTestSuite(import('./specs/openrouter/index.js'));

@@ -17,6 +17,9 @@ const hasCopilotSdkAvailable = (value: RawConfig): boolean => {
     return hasConfiguredModels(value) || isNonEmptyString(value.key as string) || isNonEmptyString(process.env.COPILOT_GITHUB_TOKEN);
 };
 
+const hasOpenAICodexAvailable = (value: RawConfig): boolean =>
+    hasConfiguredModels(value) || isNonEmptyString(value.key as string);
+
 const getConfiguredModels = (value: RawConfig): string[] => {
     if (Array.isArray(value.model)) {
         return value.model as string[];
@@ -69,6 +72,9 @@ export const getAvailableAIs = (config: ValidConfig, requestType: RequestType): 
                     if (key === 'COPILOT_SDK') {
                         return !!value && hasCopilotSdkAvailable(value);
                     }
+                    if (key === 'OPENAI_CODEX') {
+                        return !!value && hasOpenAICodexAvailable(value);
+                    }
                     if (key === 'HUGGINGFACE') {
                         return !!value && !!value.cookie;
                     }
@@ -83,6 +89,9 @@ export const getAvailableAIs = (config: ValidConfig, requestType: RequestType): 
                     }
                     if (key === 'COPILOT_SDK') {
                         return !!value && hasCopilotSdkAvailable(value) && codeReview;
+                    }
+                    if (key === 'OPENAI_CODEX') {
+                        return !!value && hasOpenAICodexAvailable(value) && codeReview;
                     }
                     if (key === 'HUGGINGFACE') {
                         return !!value && !!value.cookie && codeReview;
@@ -99,6 +108,9 @@ export const getAvailableAIs = (config: ValidConfig, requestType: RequestType): 
                     if (key === 'COPILOT_SDK') {
                         return !!value && hasCopilotSdkAvailable(value) && watchMode;
                     }
+                    if (key === 'OPENAI_CODEX') {
+                        return !!value && hasOpenAICodexAvailable(value) && watchMode;
+                    }
                     if (key === 'HUGGINGFACE') {
                         return !!value && !!value.cookie && watchMode;
                     }
@@ -114,4 +126,4 @@ export const getAvailableAIs = (config: ValidConfig, requestType: RequestType): 
         .map(([key]) => key);
 };
 
-export { getConfiguredModels, hasBedrockAccess, hasConfiguredModels, hasCopilotSdkAvailable };
+export { getConfiguredModels, hasBedrockAccess, hasConfiguredModels, hasCopilotSdkAvailable, hasOpenAICodexAvailable };

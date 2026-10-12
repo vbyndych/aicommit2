@@ -3,7 +3,7 @@ import { Observable, catchError, from, mergeMap, switchMap } from 'rxjs';
 
 import { AIServiceFactory } from '../services/ai/ai-service.factory.js';
 import { ProviderRegistry, createErrorChoice, withProviderMetadata } from '../services/ai/provider-registry.js';
-import { ModelName, ValidConfig } from '../utils/config.js';
+import { DEFAULT_OPENAI_CODEX_MODEL, ModelName, ValidConfig } from '../utils/config.js';
 import { DiffCompressionConfig } from '../utils/diff-compressor.js';
 import { GitDiff, applyDiffCompression } from '../utils/vcs.js';
 
@@ -64,7 +64,8 @@ export class AIRequestManager {
      */
     private getModels = (ai: ModelName): string[] => {
         const { model } = this.config[ai];
-        return Array.isArray(model) ? model : [model];
+        const models = Array.isArray(model) ? model : [model];
+        return ai === 'OPENAI_CODEX' && models.length === 0 ? [DEFAULT_OPENAI_CODEX_MODEL] : models;
     };
 
     private createServiceRequests$ = (modelNames: ModelName[], requestType: 'commit' | 'review'): Observable<ReactiveListChoice> => {

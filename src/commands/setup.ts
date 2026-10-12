@@ -3,7 +3,7 @@ import inquirer from 'inquirer';
 
 import { LazygitSetupMode, runLazygitSetup } from './setup-lazygit.js';
 import { ConsoleManager } from '../managers/console.manager.js';
-import { BUILTIN_SERVICES, DEFAULT_OLLAMA_HOST, setConfigs } from '../utils/config.js';
+import { BUILTIN_SERVICES, DEFAULT_OLLAMA_HOST, DEFAULT_OPENAI_CODEX_MODEL, setConfigs } from '../utils/config.js';
 import { handleCliError } from '../utils/error.js';
 
 const consoleManager = new ConsoleManager();
@@ -22,6 +22,12 @@ const PROVIDER_INFO: Record<string, ProviderInfo> = {
         authType: 'api-key',
         envKeyHint: 'OPENAI_API_KEY',
         defaultModel: 'gpt-4o-mini',
+    },
+    OPENAI_CODEX: {
+        displayName: 'OpenAI Codex SDK',
+        authType: 'none',
+        defaultModel: DEFAULT_OPENAI_CODEX_MODEL,
+        setupNotes: 'Uses Codex CLI login by default. Set OPENAI_CODEX.key manually to use an OpenAI API key.',
     },
     COPILOT_SDK: {
         displayName: 'GitHub Copilot SDK (Preview)',

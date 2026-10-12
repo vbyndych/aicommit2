@@ -81,6 +81,7 @@
         "@dqbd/tiktoken": "^1.0.21",
         "@google/generative-ai": "^0.24.1",
         "@inquirer/prompts": "^3.3.2",
+        "@openai/codex-sdk": "^0.162.1",
         "@pacote/xxhash": "^0.3.2",
         "@types/winston": "^2.4.4",
         "axios": "^1.9.0",
